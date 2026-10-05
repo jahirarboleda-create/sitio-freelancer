@@ -1,0 +1,336 @@
+/* ==========================================================
+   1. VARIABLES DE COLOR
+   Se guardan una sola vez en :root y se usan con var(--nombre).
+   Si algún día quieres cambiar el verde, lo cambias aquí
+   y se actualiza en toda la página.
+   ========================================================== */
+:root {
+  --bg-primary: #0F172A;     /* fondo general (azul muy oscuro) */
+  --bg-surface: #1E293B;     /* fondo del header, tarjetas y formulario */
+  --bg-input: #2A3240;       /* fondo de los campos y del círculo de ícono */
+  --text-primary: #F8FAFC;   /* texto principal (casi blanco) */
+  --text-secondary: #94A3B8; /* texto secundario (gris) */
+  --accent-color: #838D34;   /* verde oliva: botones, íconos, detalles */
+  --accent-hover: #A3B25A;   /* verde más claro al pasar el mouse */
+  --border-color: #2A3240;   /* bordes suaves */
+  --font-family: system-ui, -apple-system, sans-serif; /* letra del sistema */
+}
+
+
+/* ==========================================================
+   2. ESTILOS GLOBALES
+   El * afecta a TODAS las etiquetas.
+   ========================================================== */
+* {
+  margin: 0;            /* quita los espacios que el navegador pone por defecto */
+  padding: 0;
+  box-sizing: border-box; /* el padding y el borde NO agrandan el elemento;
+                             así el width que pones es el real */
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  line-height: 1.6;     /* espacio entre líneas, más fácil de leer */
+}
+
+
+/* ==========================================================
+   3. HEADER Y NAV
+   Las clases se escriben con PUNTO (.) en el CSS
+   y con class="" en el HTML.
+   ========================================================== */
+.header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  position: sticky;     /* se queda pegado arriba al hacer scroll... */
+  top: 0;               /* ...en la posición 0 */
+  z-index: 100;         /* se pone por encima del resto del contenido */
+}
+
+.header-container {
+  max-width: 1200px;    /* ancho máximo: no se estira en pantallas enormes */
+  margin: 0 auto;       /* auto a los lados = centrado */
+  display: flex;        /* flexbox: pone logo y menú en una fila */
+  justify-content: space-between; /* uno a cada extremo */
+  align-items: center;  /* centrados verticalmente */
+  flex-wrap: wrap;      /* si no caben, el menú baja a otra línea */
+  gap: 1rem;
+}
+
+.logo h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;        /* los enlaces quedan en fila */
+  gap: 1.5rem;          /* espacio entre enlaces */
+}
+
+.nav a {
+  color: var(--text-secondary);
+  text-decoration: none;   /* quita el subrayado azul por defecto */
+  font-size: 0.95rem;
+  transition: color 0.3s ease; /* el cambio de color es suave */
+}
+
+/* La coma aplica el mismo estilo a dos cosas:
+   al pasar el mouse (:hover) y al enlace con class="active" */
+.nav a:hover,
+.nav a.active {
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--accent-color); /* línea verde debajo */
+  padding-bottom: 2px;
+}
+
+
+/* ==========================================================
+   4. HERO
+   ========================================================== */
+.hero {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  min-height: 50vh;     /* mínimo la mitad de la altura de la pantalla */
+}
+
+.hero-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+/* Solo el <span> que está dentro del h2: la palabra "Freelancer" */
+.hero-content h2 span {
+  color: var(--accent-color);
+}
+
+.location {
+  display: flex;        /* ícono y texto lado a lado */
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.location svg {
+  stroke: var(--accent-color); /* en SVG, el color de la línea es "stroke" */
+}
+
+
+/* ==========================================================
+   5. BOTONES
+   .btn = forma, comparte todo botón
+   .btn-primary / .btn-submit = el color
+   ========================================================== */
+.btn {
+  display: inline-block;  /* permite darle padding como a una caja */
+  padding: 0.75rem 1.75rem;
+  border-radius: 6px;     /* esquinas redondeadas */
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;        /* la manita al pasar el mouse */
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary,
+.btn-submit {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-submit:hover {
+  background-color: var(--accent-hover); /* se aclara al pasar el mouse */
+}
+
+
+/* ==========================================================
+   6. SERVICIOS (contenedor, título y tarjetas)
+   ========================================================== */
+.container {
+  max-width: 1200px;
+  margin: 3rem auto;    /* arriba/abajo 3rem, a los lados auto = centrado */
+  padding: 0 1.5rem;    /* 0 arriba/abajo, 1.5rem a los lados */
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;  /* convierte el texto a MAYÚSCULAS */
+  letter-spacing: 1px;        /* separa un poco las letras */
+}
+
+/* GRID: acomoda las tarjetas en columnas.
+   repeat(auto-fit, minmax(240px, 1fr)) significa:
+   "crea todas las columnas que quepan, de mínimo 240px,
+   y repártete el espacio sobrante en partes iguales".
+   En celular pasa solo a 1 columna. */
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);        /* sube la tarjeta 5px */
+  border-color: var(--accent-color);  /* borde verde */
+}
+
+.icon-box {
+  background-color: var(--bg-input);
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem auto;  /* auto a los lados = centrado */
+  border-radius: 50%;        /* 50% = círculo perfecto */
+  display: flex;
+  align-items: center;       /* centra el ícono vertical... */
+  justify-content: center;   /* ...y horizontalmente */
+  color: var(--accent-color);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Opcional: el enlace de "Blog Personal" toma el color del título
+   y se le quita el subrayado azul */
+.card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ==========================================================
+   7. CONTACTO Y FORMULARIO
+   Los id se escriben con NUMERAL (#) en el CSS.
+   ========================================================== */
+#contacto {
+  scroll-margin-top: 100px;  /* al llegar con el enlace, el header fijo
+                                no tapa el título de la sección */
+}
+
+.contacto-section {
+  max-width: 700px;          /* el formulario es más angosto que el resto */
+}
+
+.formulario {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.formulario fieldset {
+  border: none;              /* quita el marco por defecto del fieldset */
+}
+
+.formulario legend {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;    /* separa un campo del siguiente */
+}
+
+.form-group label {
+  display: block;            /* la etiqueta ocupa su propia línea */
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* input y textarea comparten estilo, por eso van separados por coma */
+.form-group input,
+.form-group textarea {
+  width: 100%;               /* ocupan todo el ancho de la caja */
+  padding: 0.75rem;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: inherit;      /* usa la misma letra de la página */
+  font-size: 0.95rem;
+}
+
+/* :focus = cuando haces clic dentro del campo */
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: 1px solid var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.form-action {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.btn-submit {
+  width: 100%;               /* el botón Enviar ocupa todo el ancho */
+  padding: 0.85rem;
+  font-size: 1rem;
+}
+
+
+/* ==========================================================
+   8. FOOTER
+   ========================================================== */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 4rem;
+}
+
+.hero {
+  background-image: url("../img/imagen.jpg");
+
+  background-size: cover;       /* la imagen llena todo el elemento sin deformarse (puede recortar bordes) */
+  background-position: center;  /* qué parte de la imagen se ve cuando recorta: center, top, bottom, right... */
+  background-repeat: no-repeat; /* evita que se repita en mosaico */
+
+  min-height: 60vh;             /* IMPORTANTE: el elemento necesita altura, si no, no se ve el fondo */
+}
+
+/* ==========================================================
+   9. MEDIA QUERY (celulares y pantallas pequeñas)
+   Estas reglas SOLO se aplican cuando la pantalla mide
+   768px de ancho o menos.
+   ========================================================== */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;  /* logo arriba, menú abajo */
+    text-align: center;
+  }
+
+  .hero-content h2 {
+    font-size: 1.8rem;       /* título más pequeño en celular */
+  }
+}
